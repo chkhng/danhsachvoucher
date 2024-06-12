@@ -12,6 +12,31 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.company{
+  color: blue;
+  font-size: 12px;
+}
+.voucher-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
+
+.coupon{
+  font-size:14px;
+  font-weight: bold;
+}
+
+.voucher-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
 
 .App-header {
   background-color: #282c34;
