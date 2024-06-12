@@ -62,12 +62,13 @@ const CARD = () => {
             <li>Wisere là nền tảng đặt lịch trực tuyến, chúng tôi không cung cấp dịch vụ và không chịu trách nhiệm về chất lượng dịch vụ tại địa điểm cung cấp dịch vụ</li>
           </ul>
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
-            <Button type="primary" style={{ flex: 1, marginRight: "10px" }} onClick={handleOk}>
-              Sử dụng
-            </Button>
-            <Button style={{ flex: 1 }} onClick={handleCancel}>
+            <Button style={{ flex: 1, marginRight: "10px"  }} onClick={handleCancel}>
               Huỷ
             </Button>
+            <Button type="primary" style={{ flex: 1}} onClick={handleOk}>
+              Sử dụng
+            </Button>
+            
           </div>
         </Modal>
       )}
