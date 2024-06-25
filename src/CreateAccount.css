@@ -1,0 +1,57 @@
+/* CreateAccount.css */
+.create-account-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.social-login-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.social-button {
+  width: 30%;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.submit-button[disabled] {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+.ant-form-item {
+  text-align: left;
+}
+
+.ant-checkbox-wrapper {
+  font-size: 12px;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
