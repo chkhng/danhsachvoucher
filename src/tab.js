@@ -2,9 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 import CARD from './card.js';
 
-const onChange = (key) => {
-  console.log(key);
-};
+const onChange = (key) => {};
 const items = [
   {
     key: '1',

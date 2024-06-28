@@ -1,38 +1,39 @@
-// SixDigitInput.js
 import React, { useRef, useState, useEffect } from 'react';
-import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
-import './SquareNumberInput.css';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import './SquareNumberInput.css'; // Ensure this file contains the necessary styles for your previous UI
 import axios from 'axios';
 
 const SixDigitInput = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const email = location.state?.email || localStorage.getItem('userEmail');
-  const firstName =
-    location.state?.firstName || localStorage.getItem('firstName');
-  const lastName = location.state?.lastName || localStorage.getItem('lastName');
+  const firstName = location.state?.firstName;
+  const lastName = location.state?.lastName;
   const [digits, setDigits] = useState(Array(6).fill(''));
   const inputsRef = useRef([]);
   const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (timeLeft === 0) return;
-
-    const intervalId = setInterval(() => {
-      setTimeLeft((timeLeft) => timeLeft - 1);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
+  const initialType = searchParams.get('type');
+  const [type, setType] = useState(initialType);
 
   const resendOTP = async () => {
     try {
-      await axios.post(
-        'http://150.95.104.20:9997/verify/mail/sign-up/send-otp-customer',
-        { email, firstName, lastName },
-      );
+      if (type === 'signup') {
+        await axios.post(
+          'http://150.95.104.20:9997/verify/mail/sign-up/send-otp-customer',
+          { email, firstName, lastName },
+        );
+      } else if (type === 'signin') {
+        await axios.post(
+          'http://150.95.104.20:9997/verify/mail/sign-in/send-otp-customer',
+          { email },
+        );
+      }
       setTimeLeft(180);
+      setType(initialType);
     } catch (error) {
       console.error('Failed to resend OTP', error);
     }
@@ -56,29 +57,37 @@ const SixDigitInput = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const otpCode = digits.join('');
-    const type = searchParams.get('type');
-
+    setLoading(true);
+    setError(null);
     try {
-      if (type === 'signup') {
-        await axios.post(
-          'http://150.95.104.20:9997/verify/mail/sign-up/verify-otp-customer',
-          { email, otpCode, firstName, lastName },
-        );
-        navigate('/card');
-      } else {
-        await axios.post(
-          'http://150.95.104.20:9997/verify/mail/sign-in/verify-otp-customer',
-          { email, otpCode, firstName, lastName },
-        );
-        navigate('/card');
-      }
+      const response = await axios.post(
+        `http://150.95.104.20:9997/verify/mail/${type === 'signup' ? 'sign-up' : 'sign-in'}/verify-otp-customer`,
+        { email, otpCode, firstName, lastName },
+      );
+      localStorage.setItem('accessToken', response.data.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.data.refreshToken);
+      console.log(response.data.data.accessToken);
+      navigate('/card');
     } catch (error) {
-      console.error(`${type === 'signup' ? 'Sign up' : 'Login'} failed`, error);
+      console.error('OTP verification failed', error);
+      setError('OTP verification failed');
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (timeLeft === 0) return;
+
+    const intervalId = setInterval(() => {
+      setTimeLeft((timeLeft) => timeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timeLeft]);
 
   return (
     <div className="six-digit-input">
@@ -106,8 +115,8 @@ const SixDigitInput = () => {
             ))}
           </div>
         </div>
-        <button type="submit" className="submit-button">
-          {searchParams.get('type') === '/signup' ? 'Đăng Ký' : 'Đăng Nhập'}
+        <button type="submit" className="submit-button" disabled={loading}>
+          {type === 'signup' ? 'Đăng Ký' : 'Đăng Nhập'}
         </button>
         <div className="OTP">
           <p>Mã OTP sẽ hết hạn trong {timeLeft} Giây.</p>
@@ -119,6 +128,7 @@ const SixDigitInput = () => {
           </p>
         </div>
       </form>
+      {error && <div className="error">{error}</div>}
     </div>
   );
 };

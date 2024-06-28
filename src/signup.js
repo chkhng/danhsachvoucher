@@ -1,4 +1,3 @@
-// CreateAccount.js
 import {
   AppleOutlined,
   FacebookOutlined,
@@ -17,22 +16,22 @@ const CreateAccount = () => {
   const [isEvent2, setIsEvent2] = useState('');
   const [isEvent3, setIsEvent3] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
     const { email, firstName, lastName } = values;
+    setLoading(true);
     try {
       await axios.post(
         'http://150.95.104.20:9997/verify/mail/sign-up/send-otp-customer',
         { email, firstName, lastName },
       );
-      navigate('/otp', { state: { email, firstName, lastName } });
+      navigate('/otp?type=signup', { state: { email, firstName, lastName } });
     } catch (error) {
       console.error('Sign up failed', error);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const onChangeState = (value) => {
-    setIsEvent1(value);
   };
 
   return (
@@ -63,26 +62,32 @@ const CreateAccount = () => {
       >
         <Form.Item
           name="firstName"
-          rules={[{ required: true, message: 'Please input your first name!' }]}
+          rules={[
+            {
+              required: true,
+              type: 'firstName',
+              message: 'Please input your first name!',
+            },
+          ]}
         >
           <Input
             placeholder="Tên"
-            onChange={(e) => {
-              setIsEvent1(e.target.value);
-              console.log(e.target.value);
-            }}
+            onChange={(e) => setIsEvent1(e.target.value)}
           />
         </Form.Item>
         <Form.Item
           name="lastName"
-          rules={[{ required: true, message: 'Please input your last name!' }]}
+          rules={[
+            {
+              required: true,
+              type: 'lastName',
+              message: 'Please input your last name!',
+            },
+          ]}
         >
           <Input
             placeholder="Họ"
-            onChange={(e) => {
-              setIsEvent2(e.target.value);
-              console.log(e.target.value);
-            }}
+            onChange={(e) => setIsEvent2(e.target.value)}
           />
         </Form.Item>
         <Form.Item
@@ -97,10 +102,7 @@ const CreateAccount = () => {
         >
           <Input
             placeholder="Địa chỉ email"
-            onChange={(e) => {
-              setIsEvent3(e.target.value);
-              console.log(e.target.value);
-            }}
+            onChange={(e) => setIsEvent3(e.target.value)}
           />
         </Form.Item>
         <Form.Item name="agreedToTerms" valuePropName="checked">
@@ -114,7 +116,10 @@ const CreateAccount = () => {
             type="primary"
             htmlType="submit"
             className="submit-button"
-            disabled={!isEvent1 || !isEvent2 || !isEvent3 || !agreedToTerms}
+            disabled={
+              !isEvent1 || !isEvent2 || !isEvent3 || !agreedToTerms || loading
+            }
+            loading={loading}
           >
             Tạo tài khoản
           </Button>

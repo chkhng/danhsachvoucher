@@ -1,67 +1,66 @@
-// Login.js
+import { Button, Form, Input } from 'antd';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import axios from 'axios';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await axios.post(
-  //       'http://150.95.104.20:9997/verify/mail/sign-in/send-otp-customer',
-  //       { email },
-  //     );
-  //     navigate('/otp?type=login', { state: { email } });
-  //   } catch (error) {
-  //     console.error('login failed');
-  //   }
-  // };
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     await axios.post(
-  //       'http://150.95.104.20:9997/verify/mail/sign-in/send-otp-customer',
-  //       { email },
-  //     );
-  //   } catch (error) {
-  //     console.error('Failed to resend OTP', error);
-  //   }
-  // };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (values) => {
+    const { email } = values;
+    setLoading(true);
     try {
-      await axios.post(
+      const response = await axios.post(
         'http://150.95.104.20:9997/verify/mail/sign-in/send-otp-customer',
-        { email },
+        {
+          email,
+        },
       );
       navigate('/otp?type=signin', { state: { email } });
+      localStorage.setItem('userids', response.data?.data?.user?.id);
     } catch (error) {
-      console.error('Sign in failed', error);
+      console.error('Login failed', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-popup">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Nhập Email của bạn"
-          className="email-input"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <button type="submit" className="submit-button">
-          Đăng nhập
-        </button>
-      </form>
+    <div className="login-container">
+      <h1>Đăng nhập</h1>
+      <Form
+        form={form}
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={handleSubmit}
+        autoComplete="off"
+      >
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              type: 'email',
+              message: 'Please input a valid email!',
+            },
+          ]}
+        >
+          <Input placeholder="Địa chỉ email" />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="submit-button"
+            loading={loading}
+          >
+            Đăng nhập
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
