@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import './SquareNumberInput.css'; // Ensure this file contains the necessary styles for your previous UI
+import './SquareNumberInput.css';
 import axios from 'axios';
 
 const SixDigitInput = () => {

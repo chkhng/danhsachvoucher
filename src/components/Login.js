@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -8,6 +8,7 @@ const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
 
   const handleSubmit = async (values) => {
     const { email } = values;
@@ -19,14 +20,51 @@ const Login = () => {
           email,
         },
       );
+
+      const userData = response.data?.data?.user;
+      if (userData) {
+        const profile = {
+          id: userData.id,
+          createdAt: userData.createdAt,
+          avatarPath: userData.avatarPath,
+          dateOfBirth: userData.dateOfBirth,
+          deletedAt: userData.deletedAt,
+          email: userData.email,
+          firstName: userData.firstName,
+          gender: userData.gender,
+          isVerified: userData.isVerified,
+          lastName: userData.lastName,
+          password: userData.password,
+          phone: userData.phone,
+          provider: userData.provider,
+          providerId: userData.providerId,
+          searchValue: userData.searchValue,
+          status: userData.status,
+          updatedAt: userData.updatedAt,
+        };
+        localStorage.setItem('profile', JSON.stringify(profile));
+      }
+
       navigate('/otp?type=signin', { state: { email } });
-      localStorage.setItem('userids', response.data?.data?.user?.id);
     } catch (error) {
       console.error('Login failed', error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('profile');
+    if (isLoggedIn) {
+      navigate('/card');
+    } else {
+      setLoadingPage(false);
+    }
+  }, [navigate]);
+
+  if (loadingPage) {
+    return <>Loading</>;
+  }
 
   return (
     <div className="login-container">

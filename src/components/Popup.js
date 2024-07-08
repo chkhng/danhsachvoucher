@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
-import Login from './login.js';
+import Login from './Login.js';
 
 const POPUP = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

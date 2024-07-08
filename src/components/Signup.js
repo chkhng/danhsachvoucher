@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './CreateAccount.css';
 
@@ -17,6 +17,21 @@ const CreateAccount = () => {
   const [isEvent3, setIsEvent3] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('profile');
+    if (isLoggedIn) {
+      navigate('/card');
+      // window.location.href = '/card';
+      console.log(isLoggedIn);
+    } else {
+      setLoadingPage(false);
+    }
+  }, [navigate]);
+
+  if (loadingPage) {
+    return <>Loading</>;
+  }
 
   const handleSubmit = async (values) => {
     const { email, firstName, lastName } = values;
