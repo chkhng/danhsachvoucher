@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -68,6 +68,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <button>
+        <Link to="/">Trở lại</Link>
+      </button>
+      {/* <button to="/"> Trở lại</button> */}
       <h1>Đăng nhập</h1>
       <Form
         form={form}

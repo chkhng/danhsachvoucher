@@ -18,11 +18,11 @@ const CreateAccount = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
+
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('profile');
     if (isLoggedIn) {
       navigate('/card');
-      // window.location.href = '/card';
       console.log(isLoggedIn);
     } else {
       setLoadingPage(false);
@@ -51,7 +51,7 @@ const CreateAccount = () => {
 
   return (
     <div className="create-account-container">
-      <img src="logo.png" alt="Wisere" className="logo" />
+      <img src={require('./logo_wisere.png')} alt="Wisere" className="logo" />
       <h1>Tạo tài khoản mới</h1>
       <p>
         Đã có tài khoản? <Link to="/login">Đăng nhập</Link>

@@ -1,0 +1,105 @@
+/* Container */
+.homepage-container {
+  padding: 102x;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.homepage-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.homepage-header h1 {
+  font-size: 2em;
+  margin: 0;
+  color: #333;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  font-size: 1em;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.tabs button.active {
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
+}
+
+/* Clinic container */
+.clinic-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Clinic card */
+.clinic-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: calc(33.333% - 20px);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.clinic-card:hover {
+  transform: scale(1.05);
+}
+
+.clinic-card img {
+  width: 100%;
+  height: auto;
+}
+
+.clinic-info {
+  padding: 20px;
+}
+
+.clinic-info h2 {
+  margin: 0 0 10px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.clinic-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.rating {
+  margin: 10px 0;
+}
+
+.rating span {
+  color: gold;
+}
+
+/* Booking info */
+.booking-info {
+  margin-top: auto;
+  padding: 10px;
+  background: #f0f0f0;
+  border-top: 1px solid #ddd;
+}
+
+.booking-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.9em;
+}

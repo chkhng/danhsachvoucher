@@ -114,3 +114,14 @@ export const verifyOTP = async (phone, otp, accessToken) => {
     throw error;
   }
 };
+export const getLocation = async () => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/location/get-location?pageNum=1&pageSize=1&isGetAll=true&userId=b9a14cc9-14f3-4376-aae8-43e1197beffe&isActive=true&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&businessTypeIds=f123bdd1-f2e3-446c-af4f-c7a030a0269a&sortBy=NEAREST&businessId=4d2b67be-ebc9-45c4-b025-10a820608233`,
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error('Failed to fetch all coupons', error);
+    throw error;
+  }
+};

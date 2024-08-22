@@ -5,6 +5,7 @@ import SixDigitInput from './components/Emailotp.js';
 import Login from './components/Login.js';
 import CreateAccount from './components/Signup.js';
 import TAB from './components/Tab.js';
+import Homepage from './components/Home.js';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/otp" element={<SixDigitInput />} />
           <Route path="/card" element={<TAB />} />
+          <Route path="/place" element={<Homepage />} />
         </Routes>
       </Router>
     </div>
